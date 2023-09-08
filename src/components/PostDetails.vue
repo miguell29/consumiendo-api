@@ -10,14 +10,11 @@
 
 import { defineProps } from 'vue';
 
-const props = defineProps({
-    title: {
-        type:String,
-        required:true
-    },
-    user: Number,
-    body: String
-})
+const props = defineProps<{
+    title: string,
+    user: number,
+    body: string,
+}>();
 
 </script>
 

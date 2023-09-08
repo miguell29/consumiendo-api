@@ -1,25 +1,33 @@
 <template>
+    <h2>Consumiendo la api de <a href="https://jsonplaceholder.typicode.com/posts">jsonplaceholder</a></h2>
     <section class="container">
-        <PostDetails v-for="elm in data" :key="elm.id" :title="elm.title" :user="elm.userId" :body="elm.body"/>
+        <PostDetails v-for="post in posts" :key="post.id" :title="post.title" :user="post.userId" :body="post.body"/>
     </section>
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
+import { ref, onMounted } from 'vue';
 import PostDetails from './PostDetails.vue';
-let data = ref();
-  fetch('https://jsonplaceholder.typicode.com/posts')
-      .then(response => response.json())
-      .then(json => {
-        data.value = json;
-      }); 
+import PostService from '@/services/PostService';
 
-      
+let service = new PostService();
+let posts = ref()
 
-      
+onMounted(async () => {
+    await service.fetchAll();
+    let data = service.getPost();
+    posts.value = data.value;
+});
 </script>
 
 <style scoped>
+h2{
+    padding: 4rem;
+}
+a{
+    color: white;
+    text-decoration: none;
+}
 .container{
     display: flex;
     flex-direction: row;
